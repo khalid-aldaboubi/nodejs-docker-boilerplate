@@ -2,6 +2,7 @@ version: "3"
 services:
   node-app:
     container_name: "node-app-container1"
+    image: aldaboubi93/nodejs-boilerplate
     ports:
       - "4000:4000"
     env_file:

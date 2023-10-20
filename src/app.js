@@ -26,6 +26,10 @@ const URI = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${p
 mongoose.connect(URI).then(() => console.log('\u2713 Mongo Database Connected...')).catch((e) => console.log('Database Failure Connected !', e))
 app.use('/users', require('./users/index'))
 
+app.get('/', (req, res) => {
+    res.send('Nodejs Docker Boilerplate')
+})
+
 
 const PORT = process.env.PORT || 4000
 
