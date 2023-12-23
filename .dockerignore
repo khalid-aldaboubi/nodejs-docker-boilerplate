@@ -1,6 +1,4 @@
-/node_modules/
-Dockerfile
-.env
-docker-commands
-docker-compose*
-
+package-lock.json
+/node_modules
+*.excalidraw
+dockerfile

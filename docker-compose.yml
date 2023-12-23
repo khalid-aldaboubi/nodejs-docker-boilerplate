@@ -1,9 +1,50 @@
 version: "3"
 services:
   node-app:
-    container_name: "node-app-container1"
-    image: aldaboubi93/nodejs-boilerplate
-    ports:
-      - "4000:4000"
+    # container_name: full-app-cont
+    # ports:
+    #   - "4000:4000"
     env_file:
       - ./.env
+    depends_on:
+      - mongo
+      - redis
+      - postgres
+  mongo:
+    image: mongo
+    container_name: full-app-mongodb
+    restart: always
+    volumes:
+      - mongo-db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+  
+  postgres:
+    container_name: full-app-postgredb
+    image: postgres
+    restart: always
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${PG_USERNAME}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+
+  redis:
+    container_name: full-app-redis
+    image: redis
+  
+  nginx:
+    container_name: full-app-nginx
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - node-app
+    
+
+volumes:
+  mongo-db:
+  postgres-db:

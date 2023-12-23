@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const { Client } = require('pg')
+const os = require('os')
 const app = express()
 require('dotenv').config()
 
@@ -21,14 +22,26 @@ client.connect()
     });
 
 
-// connect db
+// connect db  
 const URI = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}`
 mongoose.connect(URI).then(() => console.log('\u2713 Mongo Database Connected...')).catch((e) => console.log('Database Failure Connected !', e))
 app.use('/users', require('./users/index'))
 
 app.get('/', (req, res) => {
-    res.send('Nodejs Docker Boilerplate')
+    console.log(`Traffic from : ${os.hostname}`)
+    res.send(`Full Nodejs Docker Boilerplate from ${os.hostname}`)
 })
+
+// function asyncTask() {
+//     console.log('Task 1');
+//     setTimeout(() => {
+//         console.log('Task 2 (async)');
+//     }, 1000);
+//     console.log('Task 3');
+// }
+
+// asyncTask();
+// console.log('All tasks initiated asynchronously.');
 
 
 const PORT = process.env.PORT || 4000

@@ -1,14 +1,29 @@
-FROM node:18 as base
+# Create a new build stage from a base image.
+FROM node as base
 
-WORKDIR /app
-COPY package.json .
-COPY . .
-EXPOSE 4000
 
 FROM base as development
+# Create new Working directory
+WORKDIR /app
+# in order to can run npm install
+COPY package.json .
+# Run to run any command 
 RUN npm install
+# Copy project files to container
+COPY . . 
+# this expose just for documentation
+EXPOSE 4000
 CMD ["npm","run","start-dev"]
 
 FROM base as production
-RUN npm install --only=production
-CMD ["npm","run","start"]
+# Create new Working directory
+WORKDIR /app
+# in order to can run npm install
+COPY package.json .
+# Run to run any command 
+RUN npm install
+# Copy project files to container
+COPY . . 
+# this expose just for documentation
+EXPOSE 4000
+CMD ["npm","start"]
